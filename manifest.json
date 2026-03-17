@@ -2,7 +2,7 @@
   "name": "Kane's Personal Calculator",
   "short_name": "KaneCalc",
   "description": "A simple, sleek calculator built by Kane.",
-  "start_url": "index.html",
+  "start_url": "/Calc-Exp/index.html",
   "display": "standalone",
   "background_color": "#1a1a1a",
   "theme_color": "#f39c12",
