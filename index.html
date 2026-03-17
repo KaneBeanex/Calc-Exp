@@ -3,43 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kane's Calculator</title>
+    <title>KaneCalc</title>
+    <link rel="manifest" href="./manifest.json">
+    <meta name="theme-color" content="#202124">
     <link rel="stylesheet" href="style.css">
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#2c3e50">
 </head>
 <body>
-    <button id="installBtn" style="display: none; margin-bottom: 20px; padding: 10px 20px; font-size: 1rem; cursor: pointer; background: #27ae60; color: white; border: none; border-radius: 5px;">Install Kane's Calculator</button>    
     <div class="calculator">
-        <div id="display">0</div>
-        <div class="buttons">
-            <button class="btn clear">C</button>
-            <button class="btn operator">/</button>
-            <button class="btn operator">*</button>
-            <button class="btn delete">DEL</button>
-            <button class="btn">7</button>
-            <button class="btn">8</button>
-            <button class="btn">9</button>
-            <button class="btn operator">-</button>
-            <button class="btn">4</button>
-            <button class="btn">5</button>
-            <button class="btn">6</button>
-            <button class="btn operator">+</button>
-            <button class="btn">1</button>
-            <button class="btn">2</button>
-            <button class="btn">3</button>
-            <button class="btn equal">=</button>
-            <button class="btn zero">0</button>
-            <button class="btn">.</button>
+        <input type="text" id="display" disabled>
+        <div class="keys">
+            <button onclick="clearDisplay()" class="action">C</button>
+            <button onclick="deleteLast()" class="action">DEL</button>
+            <button onclick="appendValue('/')" class="operator">÷</button>
+            <button onclick="appendValue('*')" class="operator">×</button>
+            
+            <button onclick="appendValue('7')">7</button>
+            <button onclick="appendValue('8')">8</button>
+            <button onclick="appendValue('9')">9</button>
+            <button onclick="appendValue('-')" class="operator">-</button>
+            
+            <button onclick="appendValue('4')">4</button>
+            <button onclick="appendValue('5')">5</button>
+            <button onclick="appendValue('6')">6</button>
+            <button onclick="appendValue('+')" class="operator">+</button>
+            
+            <button onclick="appendValue('1')">1</button>
+            <button onclick="appendValue('2')">2</button>
+            <button onclick="appendValue('3')">3</button>
+            <button onclick="calculateResult()" class="equals" rowspan="2">=</button>
+            
+            <button onclick="appendValue('0')" class="zero">0</button>
+            <button onclick="appendValue('.')">.</button>
         </div>
     </div>
-
     <script src="script.js"></script>
-    <script>
-        // Register Service Worker for PWA installation
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('sw.js');
-        }
-    </script>
 </body>
 </html>
