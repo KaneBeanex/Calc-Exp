@@ -1,20 +1,22 @@
 {
-  "name": "Kane's Calculator",
+  "name": "Kane's Personal Calculator",
   "short_name": "KaneCalc",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#2c3e50",
-  "theme_color": "#2c3e50",
+  "background_color": "#202124",
+  "theme_color": "#202124",
   "icons": [
     {
-      "src": "icon.jpg",
+      "src": "./icon-192.jpg",
       "sizes": "192x192",
-      "type": "image/jpeg"
+      "type": "image/jpeg",
+      "purpose": "any maskable"
     },
     {
-      "src": "icon.jpg",
+      "src": "./icon-512.jpg",
       "sizes": "512x512",
-      "type": "image/jpeg"
+      "type": "image/jpeg",
+      "purpose": "any maskable"
     }
   ]
 }
