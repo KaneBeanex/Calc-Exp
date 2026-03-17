@@ -1,72 +1,82 @@
-<!DOCTYPE html>    
-<html lang="en">    
-<head>    
-    <meta charset="UTF-8">    
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">    
-    <title>KaneCalc</title>    
-    <link rel="manifest" href="./manifest.json">    
-    <meta name="theme-color" content="#202124">    
-    <link rel="stylesheet" href="style.css">    
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KaneCalc</title>
 
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-        }
+  <link rel="manifest" href="./manifest.json">
+  <meta name="theme-color" content="#202124">
 
-        /* Version footer fix */
-        .version {
-            position: fixed;
-            bottom: 5px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: #FF55EAFF;
-            font-size: 10px;
-            text-align: center;
-            opacity: 0.7;
-        }
-    </style>
-</head>    
+  <link rel="stylesheet" href="style.css">
 
-<body>    
+  <style>
+    body { margin: 0; padding: 0; }
 
-    <div id="update-banner" style="display:none; background: #34a853; color: white; padding: 10px; text-align: center; position: fixed; top: 0; width: 100%; z-index: 999;">    
-        New version available!     
-        <button onclick="updateApp()" style="margin-left:10px; padding: 5px 10px; border:none; border-radius:4px; background:white; color:#34a853; font-weight:bold;">RELOAD</button>    
-    </div>    
-        
-    <div class="calculator">    
-        <input type="text" id="display" disabled>    
-        <div class="keys">    
-            <button onclick="clearDisplay()" class="action">C</button>    
-            <button onclick="deleteLast()" class="action">DEL</button>    
-            <button onclick="appendValue('/')" class="operator">÷</button>    
-            <button onclick="appendValue('*')" class="operator">×</button>    
-                
-            <button onclick="appendValue('7')">7</button>    
-            <button onclick="appendValue('8')">8</button>    
-            <button onclick="appendValue('9')">9</button>    
-            <button onclick="appendValue('-')" class="operator">-</button>    
-                
-            <button onclick="appendValue('4')">4</button>    
-            <button onclick="appendValue('5')">5</button>    
-            <button onclick="appendValue('6')">6</button>    
-            <button onclick="appendValue('+')" class="operator">+</button>    
-                
-            <button onclick="appendValue('1')">1</button>    
-            <button onclick="appendValue('2')">2</button>    
-            <button onclick="appendValue('3')">3</button>    
-            <button onclick="calculateResult()" class="equals">=</button>    
-                
-            <button onclick="appendValue('0')" class="zero">0</button>    
-            <button onclick="appendValue('.')">.</button>    
-        </div>    
-    </div>    
+    #update-banner {
+      display: none;
+      background: #34a853;
+      color: white;
+      padding: 10px;
+      text-align: center;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 999;
+    }
 
-    <script src="script.js"></script>    
+    .version {
+      position: fixed;
+      bottom: 5px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: #FF55EAFF;
+      font-size: 10px;
+      opacity: 0.7;
+    }
+  </style>
+</head>
 
-    <!-- Fixed version footer -->
-    <p id="version">v1.1 - Active</p>
+<body>
 
-</body>    
+  <!-- Update Banner -->
+  <div id="update-banner">
+    New version available!
+    <button onclick="updateApp()">RELOAD</button>
+  </div>
+
+  <!-- Calculator -->
+  <div class="calculator">
+    <input type="text" id="display" disabled>
+
+    <div class="keys">
+      <button onclick="clearDisplay()">C</button>
+      <button onclick="deleteLast()">DEL</button>
+      <button onclick="appendValue('/')">÷</button>
+      <button onclick="appendValue('*')">×</button>
+
+      <button onclick="appendValue('7')">7</button>
+      <button onclick="appendValue('8')">8</button>
+      <button onclick="appendValue('9')">9</button>
+      <button onclick="appendValue('-')">-</button>
+
+      <button onclick="appendValue('4')">4</button>
+      <button onclick="appendValue('5')">5</button>
+      <button onclick="appendValue('6')">6</button>
+      <button onclick="appendValue('+')">+</button>
+
+      <button onclick="appendValue('1')">1</button>
+      <button onclick="appendValue('2')">2</button>
+      <button onclick="appendValue('3')">3</button>
+      <button onclick="calculateResult()">=</button>
+
+      <button onclick="appendValue('0')">0</button>
+      <button onclick="appendValue('.')">.</button>
+    </div>
+  </div>
+
+  <p class="version">v2.0</p>
+
+  <script src="script.js"></script>
+</body>
 </html>
