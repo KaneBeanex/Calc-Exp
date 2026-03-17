@@ -1,4 +1,5 @@
-const CACHE_NAME = 'kanecalc-v1.1'; // Change this number!
+const CACHE_NAME = 'kanecalc-v2.0';
+
 const ASSETS = [
   './',
   './index.html',
@@ -9,19 +10,44 @@ const ASSETS = [
   './icon-512.png'
 ];
 
-self.addEventListener('install', e => {
-  self.skipWaiting(); // Forces the new service worker to become active immediately
-  e.waitUntil(caches.open(CACHE_NAME).then(c => c.addAll(ASSETS)));
-});
-
-self.addEventListener('activate', e => {
-  e.waitUntil(
-    caches.keys().then(keys => Promise.all(
-      keys.map(k => k !== CACHE_NAME && caches.delete(k))
-    ))
+// Install
+self.addEventListener('install', event => {
+  self.skipWaiting();
+  event.waitUntil(
+    caches.open(CACHE_NAME).then(cache => cache.addAll(ASSETS))
   );
 });
 
-self.addEventListener('fetch', e => {
-  e.respondWith(caches.match(e.request).then(res => res || fetch(e.request)));
+// Activate
+self.addEventListener('activate', event => {
+  event.waitUntil(
+    caches.keys().then(keys =>
+      Promise.all(
+        keys.map(key => {
+          if (key !== CACHE_NAME) return caches.delete(key);
+        })
+      )
+    )
+  );
+  return self.clients.claim();
+});
+
+// Fetch (Network First)
+self.addEventListener('fetch', event => {
+  event.respondWith(
+    fetch(event.request)
+      .then(response => {
+        const clone = response.clone();
+        caches.open(CACHE_NAME).then(cache => cache.put(event.request, clone));
+        return response;
+      })
+      .catch(() => caches.match(event.request))
+  );
+});
+
+// Listen for skip waiting
+self.addEventListener('message', event => {
+  if (event.data.action === 'skipWaiting') {
+    self.skipWaiting();
+  }
 });
