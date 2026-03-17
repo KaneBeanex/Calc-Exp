@@ -10,44 +10,33 @@ const ASSETS = [
   './icon-512.png'
 ];
 
-// Install
-self.addEventListener('install', event => {
+self.addEventListener('install', e => {
   self.skipWaiting();
-  event.waitUntil(
+  e.waitUntil(
     caches.open(CACHE_NAME).then(cache => cache.addAll(ASSETS))
   );
 });
 
-// Activate
-self.addEventListener('activate', event => {
-  event.waitUntil(
+self.addEventListener('activate', e => {
+  e.waitUntil(
     caches.keys().then(keys =>
       Promise.all(
-        keys.map(key => {
-          if (key !== CACHE_NAME) return caches.delete(key);
-        })
+        keys.map(key => key !== CACHE_NAME && caches.delete(key))
       )
     )
   );
   return self.clients.claim();
 });
 
-// Fetch (Network First)
-self.addEventListener('fetch', event => {
-  event.respondWith(
-    fetch(event.request)
-      .then(response => {
-        const clone = response.clone();
-        caches.open(CACHE_NAME).then(cache => cache.put(event.request, clone));
-        return response;
-      })
-      .catch(() => caches.match(event.request))
-  );
-});
-
-// Listen for skip waiting
+// 🔥 THIS IS THE KEY PART
 self.addEventListener('message', event => {
-  if (event.data.action === 'skipWaiting') {
+  if (event.data === 'SKIP_WAITING') {
     self.skipWaiting();
   }
+});
+
+self.addEventListener('fetch', e => {
+  e.respondWith(
+    caches.match(e.request).then(res => res || fetch(e.request))
+  );
 });
