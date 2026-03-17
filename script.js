@@ -1,33 +1,28 @@
-// Register Service Worker
+let newWorker;
+
 if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js')
-            .then(reg => console.log('Service Worker Registered!'))
-            .catch(err => console.error('Service Worker Failed:', err));
+  navigator.serviceWorker.register('./sw.js').then(reg => {
+    reg.addEventListener('updatefound', () => {
+      newWorker = reg.installing;
+      newWorker.addEventListener('statechange', () => {
+        // Check if the new worker has finished installing
+        if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+          // Show the update banner to the user
+          document.getElementById('update-banner').style.display = 'block';
+        }
+      });
     });
+  });
 }
 
-// Calculator Logic
-const display = document.getElementById('display');
-
-function appendValue(value) {
-    display.value += value;
+// Function called by the button in the banner
+function updateApp() {
+  if (newWorker) {
+    newWorker.postMessage('SKIP_WAITING');
+  }
 }
 
-function clearDisplay() {
-    display.value = '';
-}
-
-function deleteLast() {
-    display.value = display.value.slice(0, -1);
-}
-
-function calculateResult() {
-    try {
-        // Safe evaluation for standard math string
-        display.value = eval(display.value) || '';
-    } catch (e) {
-        display.value = 'Error';
-        setTimeout(clearDisplay, 1500);
-    }
-}
+// Reload the page once the new Service Worker has taken control
+navigator.serviceWorker.addEventListener('controllerchange', () => {
+  window.location.reload();
+});
