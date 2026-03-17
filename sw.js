@@ -1,6 +1,4 @@
-// 1. Change this version number every time you update!
-const CACHE_NAME = 'kanecalc-v1.1'; 
-
+const CACHE_NAME = 'kanecalc-v1.1'; // Change this number!
 const ASSETS = [
   './',
   './index.html',
@@ -11,26 +9,19 @@ const ASSETS = [
   './icon-512.png'
 ];
 
-// 2. Add this message listener to "skip waiting"
-self.addEventListener('message', (event) => {
-  if (event.data === 'SKIP_WAITING') {
-    self.skipWaiting();
-  }
+self.addEventListener('install', e => {
+  self.skipWaiting(); // Forces the new service worker to become active immediately
+  e.waitUntil(caches.open(CACHE_NAME).then(c => c.addAll(ASSETS)));
 });
 
-self.addEventListener('install', event => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => cache.addAll(ASSETS))
-  );
-});
-
-// 3. Cleanup old versions (Delete v1.0 when v1.1 takes over)
-self.addEventListener('activate', event => {
-  event.waitUntil(
+self.addEventListener('activate', e => {
+  e.waitUntil(
     caches.keys().then(keys => Promise.all(
-      keys.map(key => {
-        if (key !== CACHE_NAME) return caches.delete(key);
-      })
+      keys.map(k => k !== CACHE_NAME && caches.delete(k))
     ))
   );
+});
+
+self.addEventListener('fetch', e => {
+  e.respondWith(caches.match(e.request).then(res => res || fetch(e.request)));
 });
