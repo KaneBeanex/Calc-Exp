@@ -1,4 +1,4 @@
-const CACHE_NAME = 'kanecalc-v2.01.2';
+const CACHE_NAME = 'kanecalc-v2.01.3';
 
 const ASSETS = [
   './',
